@@ -1,0 +1,16 @@
+function [xopt, fopt, exitflag] = BruteForce(objFun, numVars, A, B, Aeq, Beq, lb, ub, @con, options)
+
+%% set up tries
+x = A;
+for i = 1:numVars % which variable I'm setting up
+    for j = 1:30 % which iteration on that variable I'm setting up 
+        x = [x(:,1:j),[x(j,i)*ones(1,30);linspace(A(2),B(2),30)],x(:,i*30+j+1:end)]
+    end
+end
+
+
+
+
+end
+
+BruteForce
