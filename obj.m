@@ -17,13 +17,17 @@ function [LTV, stdev] = obj(x)
     % return Expected LTV and stdev
 end
 
-function H = houseWithin(microhub_ID, alpha, houseNodeStruct)
-
+function r = isWithin(source, target, distance, alpha, beta)
+    [theta,rho] = cart2pol(target.x - source.x, target.y - source.y);
+    r = rho < distance && mod(abs(theta-alpha), 2*pi()) <= beta;
 end
 
-function signal = signalStrength(microhub_ID, house_ID)
-
+function H = housesWithin(source, distance, alpha, halfAngle, houseNodeStruct)
+    mask = arrayfun(@(h) isWithin(source, h, distance, alpha, halfAngle) , houseNodeStruct);
+    H = objArr(mask);
 end
+
+
 
 function [avgLTV, stdev] = salesmanMonteCarlo(individualLTV,houseNodeStruct,iter)
 
